@@ -22,41 +22,52 @@
                 <img style="width: 100%;" src="/static/deck.png">
 
                 <div id="deck1"
+                    class="cardholder"
                     style="top: 4%; left: 1%;"
                     ondrop="dropHandler(event)"
                     ondragover="dragoverHandler(event)"></div>
                 <div id="deck2"
+                    class="cardholder"
                     style="top: 4%; left: 25%;"
                     ondrop="dropHandler(event)"
                     ondragover="dragoverHandler(event)"></div>
                 <div id="deck3"
+                    class="cardholder"
                     style="top: 4%; left: 49.5%;"
                     ondrop="dropHandler(event)"
                     ondragover="dragoverHandler(event)"></div>
                 <div id="deck4"
+                    class="cardholder"
                     style="top: 4%; left: 73.5%;"
                     ondrop="dropHandler(event)"
                     ondragover="dragoverHandler(event)"></div>
                 <div id="deck5"
+                    class="cardholder"
                     style="top: 45%; left: 1%;"
                     ondrop="dropHandler(event)"
                     ondragover="dragoverHandler(event)"></div>
                 <div id="deck6"
+                    class="cardholder"
                     style="top: 45%; left: 25%;"
                     ondrop="dropHandler(event)"
                     ondragover="dragoverHandler(event)"></div>
                 <div id="deck7"
+                    class="cardholder"
                     style="top: 45%; left: 49.5%;"
                     ondrop="dropHandler(event)"
                     ondragover="dragoverHandler(event)"></div>
                 <div id="deck8"
+                    class="cardholder"
                     style="top: 45%; left: 73.5%;"
                     ondrop="dropHandler(event)"
                     ondragover="dragoverHandler(event)"></div>
                 
                 <span id="avgelixir">0.0</span>
             </div>
-            <div id="hintholder"></div>
+            <div id="hintholder" style="height: -webkit-fill-available; padding: 10px;">
+                <!-- <span class="mistake">Contains a duplicate card</span>
+                <span class="warning">Does not contain a Spell</span> -->
+            </div>
         </div>
         <div id="rightpane">
             <div id="filterbtns" style="width: 100%">
@@ -83,5 +94,6 @@
     const hintlist = new HintList();
 
     picker.filter_by(document.getElementsByClassName("filterbtn")[0], 'All');
+    hintlist.update([]);
 </script>
 </html>

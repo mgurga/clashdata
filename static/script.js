@@ -1,7 +1,13 @@
 console.log("hello world!")
 
+function deck_update_callback(cardlist) {
+    hintlist.update(cardlist);
+}
+
 function dragstartHandler(ev) { ev.dataTransfer.setData("text", ev.target.id); }
-function dragoverHandler(ev) { ev.preventDefault(); }
+function dragoverHandler(ev) {
+    ev.preventDefault();
+}
 function dropHandler(ev) {
     console.log(ev);
     ev.preventDefault();
@@ -32,8 +38,7 @@ function dropHandler(ev) {
         console.log("invalid drag");
     }
 
-    deck.update_deck();
-    hintlist.update(deck.cards);
+    deck.update_deck(deck_update_callback);
 }
 
 // right pane w/ filter buttons and draggable card images
@@ -87,10 +92,11 @@ class Deck {
         this.avgcost = 0;
     }
 
-    async update_deck() {
-        const holder = document.getElementById("deckholder");
+    async update_deck(callback) {
+        const holders = document.getElementsByClassName("cardholder");
+        this.cards = [];
 
-        for (let cardholder of holder.children) {
+        for (let cardholder of holders) {
             if (cardholder.childElementCount > 0) {
                 let cardjson = await getJSON(`/cardid/${cardholder.children[0].id}`);
                 this.cards.push(cardjson);
@@ -98,6 +104,7 @@ class Deck {
         }
 
         this.update_elixir();
+        callback(this.cards);
     }
 
     update_elixir() {
@@ -106,20 +113,57 @@ class Deck {
             totalelixir += card.cost;
         }
         this.avgcost = totalelixir / this.cards.length;
-        document.getElementById("avgelixir").innerHTML = avg.toFixed(1);
+        document.getElementById("avgelixir").innerHTML = this.avgcost.toFixed(1);
     }
 }
 
 // lower left holder for suggestions to the current deck
 class HintList {
+    constructor() {
+        this.hh = document.getElementById("hintholder");
+    }
+
+    add_warning(message) {
+        let warning = document.createElement("span");
+        warning.innerHTML = message;
+        warning.classList.add("warning");
+        this.hh.appendChild(warning);
+    }
+
+    add_mistake(message) {
+        let mistake = document.createElement("span");
+        mistake.innerHTML = message;
+        mistake.classList.add("mistake");
+        this.hh.appendChild(mistake);
+    }
+
     update(cardlist) {
+        console.log("running hint update on cardlist: ");
+        console.log(cardlist);
+        this.hh.innerHTML = "";
+
         // Mistakes
-        // Does not contain a Win Condition
+        // Empty deck
+        if (cardlist.length == 0) {
+            this.add_mistake("Empty deck");
+            return;
+        }
+
         // Does not contain an Air Defense
         // Contains a duplicate card
 
+
         // Warnings
-        // Average elixir cost high (> 8)
+        // Average elixir cost too high (> 8)
+        let totalelixir = 0;
+        for (let card of cardlist) {
+            totalelixir += card.cost;
+        }
+        if ((totalelixir / cardlist.length) >= 8) {
+            this.add_warning("Average elixir cost too high (>= 8)");
+        }
+        
+        // Does not contain a Win Condition
         // Does not contain a Spell
         // Does not contain a Building
     }
