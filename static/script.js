@@ -31,6 +31,9 @@ function dropHandler(ev) {
         // invalid
         console.log("invalid drag");
     }
+
+    deck.update_deck();
+    hintlist.update(deck.cards);
 }
 
 // right pane w/ filter buttons and draggable card images
@@ -79,10 +82,45 @@ class Picker {
 
 // upper left holder for selected cards
 class Deck {
+    constructor() {
+        this.cards = [];
+        this.avgcost = 0;
+    }
 
+    async update_deck() {
+        const holder = document.getElementById("deckholder");
+
+        for (let cardholder of holder.children) {
+            if (cardholder.childElementCount > 0) {
+                let cardjson = await getJSON(`/cardid/${cardholder.children[0].id}`);
+                this.cards.push(cardjson);
+            }
+        }
+
+        this.update_elixir();
+    }
+
+    update_elixir() {
+        let totalelixir = 0;
+        for (let card of this.cards) {
+            totalelixir += card.cost;
+        }
+        this.avgcost = totalelixir / this.cards.length;
+        document.getElementById("avgelixir").innerHTML = avg.toFixed(1);
+    }
 }
 
 // lower left holder for suggestions to the current deck
 class HintList {
+    update(cardlist) {
+        // Mistakes
+        // Does not contain a Win Condition
+        // Does not contain an Air Defense
+        // Contains a duplicate card
 
+        // Warnings
+        // Average elixir cost high (> 8)
+        // Does not contain a Spell
+        // Does not contain a Building
+    }
 }

@@ -30,6 +30,12 @@ def cards_by_tag(tag: str) -> list[Card]:
 
     return out
 
+def card_by_id(id: str) -> Card | None:
+    cur.execute(f"SELECT * FROM CardUsage WHERE card_id = {id}")
+    res = cur.fetchall()
+    for row in res:
+        return Card(row)
+
 def all_tags() -> list[str]:
     cards = all_cards()
     tagset = set()
@@ -53,10 +59,14 @@ def all_cards_json():
     return json.dumps(out, default=vars)
 
 @app.route("/cards/<tag>")
-def cardstag(tag):
+def cards_tag(tag):
     out = []
     if tag == "All" or tag == "all":
         out = all_cards()
     else:
         out = cards_by_tag(tag)
     return json.dumps(out, default=vars)
+
+@app.route("/cardid/<id>")
+def card_id(id):
+    return json.dumps(card_by_id(id), default=vars)
