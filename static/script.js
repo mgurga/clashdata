@@ -1,4 +1,4 @@
-console.log("hello world!")
+console.log("hello world!");
 
 function deck_update_callback(cardlist) {
     hintlist.update(cardlist);
@@ -113,6 +113,7 @@ class Deck {
             totalelixir += card.cost;
         }
         this.avgcost = totalelixir / this.cards.length;
+        if (this.cards.length == 0) this.avgcost = 0;
         document.getElementById("avgelixir").innerHTML = this.avgcost.toFixed(1);
     }
 }
@@ -142,7 +143,7 @@ class HintList {
         console.log(cardlist);
         this.hh.innerHTML = "";
 
-        // Mistakes
+        // **Mistakes**
         // Empty deck
         if (cardlist.length == 0) {
             this.add_mistake("Empty deck");
@@ -150,10 +151,20 @@ class HintList {
         }
 
         // Does not contain an Air Defense
+        if (tagcount(cardlist, "AirDefense") == 0) {
+            this.add_mistake("Does not contain Air Defense");
+        }
+
         // Contains a duplicate card
+        let idset = new Set();
+        for (let card of cardlist) {
+            idset.add(card.card_id);
+        }
+        if (idset.length < cardlist.length) {
+            this.add_mistake("Contains a duplicate card");
+        }
 
-
-        // Warnings
+        // **Warnings**
         // Average elixir cost too high (> 8)
         let totalelixir = 0;
         for (let card of cardlist) {
@@ -164,7 +175,18 @@ class HintList {
         }
         
         // Does not contain a Win Condition
+        if (tagcount(cardlist, "WinCondition") == 0) {
+            this.add_warning("Does not contain a Win Condition");
+        }
+
         // Does not contain a Spell
+        if(tagcount(cardlist, "Spell") == 0) {
+            this.add_warning("Does not contain a Spell");
+        }
+
         // Does not contain a Building
+        if(tagcount(cardlist, "Building") == 0) {
+            this.add_warning("Does not contain a Building");
+        }
     }
 }
