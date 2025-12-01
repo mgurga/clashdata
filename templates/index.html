@@ -12,7 +12,7 @@
 </head>
 <body>
     <div style="display: flex; height: 100%;">
-        <div id="leftpane" style="width: 40%;">
+        <div id="leftpane">
             <div id="infobox">
                 <span style="font-size: 16pt;">Clash Data Deck Builder ⚔️</span>
                 <br>
@@ -58,7 +58,7 @@
             </div>
             <div id="hintholder"></div>
         </div>
-        <div id="rightpane" style="width: 60%;">
+        <div id="rightpane">
             <div id="filterbtns" style="width: 100%">
                 {% for tag in tags %}
                 <div class="filterbtn" onclick="picker.filter_by(this, '{{tag}}');">
