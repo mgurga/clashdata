@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/static/swords.ico" type="image/x-icon">
+    <title>Clash Data</title>
+
+    <script src="/static/utils.js"></script>
+    <script src="/static/script.js"></script>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div style="display: flex; height: 100%;">
+        <div id="leftpane" style="width: 40%;">
+            <div id="infobox">
+                <span style="font-size: 16pt;">Clash Data Deck Builder ⚔️</span>
+                <br>
+                <span>Deck builder based on 37.9 million season 18 battles.</span>
+            </div>
+            <div id="deckholder">
+                <img style="width: 100%;" src="/static/deck.png">
+
+                <div id="deck1"
+                    style="top: 4%; left: 1%;"
+                    ondrop="dropHandler(event)"
+                    ondragover="dragoverHandler(event)"></div>
+                <div id="deck2"
+                    style="top: 4%; left: 25%;"
+                    ondrop="dropHandler(event)"
+                    ondragover="dragoverHandler(event)"></div>
+                <div id="deck3"
+                    style="top: 4%; left: 49.5%;"
+                    ondrop="dropHandler(event)"
+                    ondragover="dragoverHandler(event)"></div>
+                <div id="deck4"
+                    style="top: 4%; left: 73.5%;"
+                    ondrop="dropHandler(event)"
+                    ondragover="dragoverHandler(event)"></div>
+                <div id="deck5"
+                    style="top: 45%; left: 1%;"
+                    ondrop="dropHandler(event)"
+                    ondragover="dragoverHandler(event)"></div>
+                <div id="deck6"
+                    style="top: 45%; left: 25%;"
+                    ondrop="dropHandler(event)"
+                    ondragover="dragoverHandler(event)"></div>
+                <div id="deck7"
+                    style="top: 45%; left: 49.5%;"
+                    ondrop="dropHandler(event)"
+                    ondragover="dragoverHandler(event)"></div>
+                <div id="deck8"
+                    style="top: 45%; left: 73.5%;"
+                    ondrop="dropHandler(event)"
+                    ondragover="dragoverHandler(event)"></div>
+                
+                <span id="avgelixir">0.0</span>
+            </div>
+            <div id="hintholder"></div>
+        </div>
+        <div id="rightpane" style="width: 60%;">
+            <div id="filterbtns" style="width: 100%">
+                {% for tag in tags %}
+                <div class="filterbtn" onclick="picker.filter_by(this, '{{tag}}');">
+                    <img src="/static/button/redleft.png">
+                    <div class="tagtext" style="background-image: url('/static/button/redmid.png');">
+                        {{ tag }}
+                    </div>
+                    <img src="/static/button/redright.png">
+                </div>
+                {% endfor %}
+            </div>
+            <div id="pickercards"
+                ondrop="dropHandler(event)"
+                ondragover="dragoverHandler(event)"
+                style="overflow-y: auto;"></div>
+        </div>
+    </div>
+</body>
+<script>
+    const picker = new Picker();
+    const deck = new Deck();
+    const hintlist = new HintList();
+
+    picker.filter_by(document.getElementsByClassName("filterbtn")[0], 'All');
+</script>
+</html>
