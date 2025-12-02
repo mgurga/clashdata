@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="overflow: hidden;">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -64,9 +64,29 @@
                 
                 <span id="avgelixir">0.0</span>
             </div>
-            <div id="hintholder" style="height: -webkit-fill-available; padding: 10px;">
-                <!-- <span class="mistake">Contains a duplicate card</span>
-                <span class="warning">Does not contain a Spell</span> -->
+            <div id="hintholder" style="height: -webkit-fill-available; padding: 10px;"></div>
+            <div id="bottombtns">
+                <div class="clashbtn" onclick="export_deck();">
+                    <img src="/static/button/greenleft.png">
+                    <div class="tagtext" style="background-image: url('/static/button/greenmid.png');">
+                        Export
+                    </div>
+                    <img src="/static/button/greenright.png">
+                </div>
+                <div class="clashbtn" onclick="import_deck();">
+                    <img src="/static/button/blueleft.png">
+                    <div class="tagtext" style="background-image: url('/static/button/bluemid.png');">
+                        Import
+                    </div>
+                    <img src="/static/button/blueright.png">
+                </div>
+                <div class="clashbtn" onclick="clear_deck();">
+                    <img src="/static/button/redleft.png">
+                    <div class="tagtext" style="background-image: url('/static/button/redmid.png');">
+                        Clear
+                    </div>
+                    <img src="/static/button/redright.png">
+                </div>
             </div>
         </div>
         <div id="rightpane">

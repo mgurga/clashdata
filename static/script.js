@@ -1,5 +1,18 @@
 console.log("hello world!");
 
+function clear_deck() {
+    deck.clear();
+    hintlist.update([]);
+}
+
+function import_deck() {
+    alert("importing...");
+}
+
+function export_deck() {
+    alert("exporting...");
+}
+
 function deck_update_callback(cardlist) {
     hintlist.update(cardlist);
 }
@@ -115,6 +128,15 @@ class Deck {
         this.avgcost = totalelixir / this.cards.length;
         if (this.cards.length == 0) this.avgcost = 0;
         document.getElementById("avgelixir").innerHTML = this.avgcost.toFixed(1);
+    }
+
+    clear() {
+        const holders = document.getElementsByClassName("cardholder");
+        this.cards = [];
+        for (let cardholder of holders) {
+            cardholder.innerHTML = "";
+        }
+        this.update_elixir();
     }
 }
 
