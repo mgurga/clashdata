@@ -16,7 +16,18 @@
             <div id="infobox">
                 <span style="font-size: 16pt;">Clash Data Deck Builder ⚔️</span>
                 <br>
-                <span>Deck builder based on 37.9 million season 18 battles.</span>
+                <div style="width: 100%;">
+                    <span>Common Decks: </span>
+                    <select name="common decks" id="commondeckdropdown">
+                        <option value="blank">---</option>
+                        <option value="26hog">2.6 Hog</option>
+                        <option value="lumberloon">LumberLoon</option>
+                        <option value="logbait">Log Bait</option>
+                        <option value="xbow">X-Bow Cycle</option>
+                        <option value="golemdragon">Golem Dragon</option>
+                    </select>
+                    <script src="/static/commondecks.js"></script>
+                </div>
             </div>
             <div id="deckholder">
                 <img style="width: 100%;" src="/static/deck.png">

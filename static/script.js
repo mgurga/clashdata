@@ -3,6 +3,7 @@ console.log("hello world!");
 function clear_deck() {
     deck.clear();
     hintlist.update([]);
+    document.querySelector("#commondeckdropdown").value = "blank";
 }
 
 function deck_update_callback(cardlist) {
