@@ -5,14 +5,6 @@ function clear_deck() {
     hintlist.update([]);
 }
 
-function import_deck() {
-    alert("importing...");
-}
-
-function export_deck() {
-    alert("exporting...");
-}
-
 function deck_update_callback(cardlist) {
     hintlist.update(cardlist);
 }
@@ -172,9 +164,14 @@ class HintList {
             return;
         }
 
+        // Does not contain a WinConditions
+        if (tagcount(cardlist, "WinCondition") == 0) {
+            this.add_mistake("Must contain a Win Condition");
+        }
+
         // Does not contain an Air Defense
         if (tagcount(cardlist, "AirDefense") == 0) {
-            this.add_mistake("Does not contain Air Defense");
+            this.add_mistake("Must contain Air Defense");
         }
 
         // Contains a duplicate card
@@ -195,20 +192,25 @@ class HintList {
         if ((totalelixir / cardlist.length) >= 8) {
             this.add_warning("Average elixir cost too high (>= 8)");
         }
-        
-        // Does not contain a Win Condition
-        if (tagcount(cardlist, "WinCondition") == 0) {
-            this.add_warning("Does not contain a Win Condition");
-        }
 
-        // Does not contain a Spell
-        if(tagcount(cardlist, "Spell") == 0) {
-            this.add_warning("Does not contain a Spell");
+        // Does not contain a WinCondition
+        if (tagcount(cardlist, "WinCondition") == 1) {
+            this.add_warning("Should contain 2 WinConditions");
         }
 
         // Does not contain a Building
         if(tagcount(cardlist, "Building") == 0) {
-            this.add_warning("Does not contain a Building");
+            this.add_warning("Should contain a Building");
+        }
+
+        // Does not contain a MiniTank
+        if(tagcount(cardlist, "MiniTank") == 0) {
+            this.add_warning("Should contain a MiniTank");
+        }
+
+        // Does not contain an AoE or Spell card
+        if(tagcount(cardlist, "AoE") == 0 && tagcount(cardlist, "Spell") == 0) {
+            this.add_warning("No Swarm defense");
         }
     }
 }

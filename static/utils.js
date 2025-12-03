@@ -13,3 +13,11 @@ function tagcount(cardlist, tag) {
     }
     return out;
 }
+
+function import_deck() {
+    alert("importing...");
+}
+
+function export_deck() {
+    alert("exporting...");
+}
