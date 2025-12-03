@@ -74,7 +74,25 @@ class Picker {
     }
 
     async populate_picker(tag) {
-        let cardjson = await getJSON(`/cards/${tag}`);
+        if (deck.avgcost >= 7) {
+            this.populate_picker_sort(tag, "cost/ASC");
+            return;
+        }
+
+        if (deck.avgcost <= 2 && deck.cards.length >= 4) {
+            this.populate_picker_sort(tag, "cost/DESC");
+            return;
+        }
+        
+        if (deck.cards.length >= 4) {
+            this.populate_picker_sort(tag, "avg_trophies/ASC");
+        } else {
+            this.populate_picker_sort(tag, "wins/DESC");
+        }
+    }
+
+    async populate_picker_sort(tag, sortby) {
+        let cardjson = await getJSON(`/cards/${tag}/sortby/${sortby}`);
         document.getElementById("pickercards").innerHTML = "";
 
         for (var card of cardjson) {
@@ -96,6 +114,8 @@ class Deck {
     constructor() {
         this.cards = [];
         this.avgcost = 0;
+        this.avgwins = 0;
+        this.avgtrophies = 0;
     }
 
     async update_deck(callback) {
@@ -115,11 +135,23 @@ class Deck {
 
     update_elixir() {
         let totalelixir = 0;
+        let totalwins = 0;
+        let totaltrophies = 0;
         for (let card of this.cards) {
             totalelixir += card.cost;
+            totalwins += card.wins;
+            totaltrophies += card.avg_trophies;
         }
+
         this.avgcost = totalelixir / this.cards.length;
         if (this.cards.length == 0) this.avgcost = 0;
+
+        this.avgtrophies = totaltrophies / this.cards.length;
+        if (this.cards.length == 0) this.avgtrophies = 0;
+
+        this.avgwins = totalwins / this.cards.length;
+        if (this.cards.length == 0) this.avgwins = 0;
+
         document.getElementById("avgelixir").innerHTML = this.avgcost.toFixed(1);
     }
 

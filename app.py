@@ -10,20 +10,20 @@ cur.execute("USE mysql")
 app = Flask(__name__)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0 # force no caching for faster debugging
 
-def all_cards() -> list[Card]:
+def all_cards(sort: str = "wins", ascdesc: str = "DESC") -> list[Card]:
     out = []
 
-    cur.execute("SELECT * FROM CardUsage ORDER BY wins DESC")
+    cur.execute(f"SELECT * FROM CardUsage ORDER BY {sort} {ascdesc}")
     res = cur.fetchall()
     for row in res:
         out.append(Card(row))
 
     return out
 
-def cards_by_tag(tag: str) -> list[Card]:
+def cards_by_tag(tag: str, sort: str = "wins", ascdesc: str = "DESC") -> list[Card]:
     out = []
 
-    cur.execute(f"SELECT * FROM CardUsage WHERE tags LIKE '%{tag}%' ORDER BY wins DESC")
+    cur.execute(f"SELECT * FROM CardUsage WHERE tags LIKE '%{tag}%' ORDER BY {sort} {ascdesc}")
     res = cur.fetchall()
     for row in res:
         out.append(Card(row))
@@ -65,6 +65,18 @@ def cards_tag(tag):
         out = all_cards()
     else:
         out = cards_by_tag(tag)
+    return json.dumps(out, default=vars)
+
+@app.route("/cards/<tag>/sortby/<sort>/<ascdesc>")
+def cards_tag_sort(tag, sort, ascdesc):
+    direction = "DESC"
+    if ascdesc == "ASC" or ascdesc == "asc" or ascdesc == "ascending":
+        direction = "ASC"
+    out = []
+    if tag == "All" or tag == "all":
+        out = all_cards(sort, direction)
+    else:
+        out = cards_by_tag(tag, sort, direction)
     return json.dumps(out, default=vars)
 
 @app.route("/cardid/<id>")
