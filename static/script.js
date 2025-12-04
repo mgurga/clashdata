@@ -86,7 +86,7 @@ class Picker {
         }
         
         if (deck.cards.length >= 4) {
-            this.populate_picker_sort(tag, "avg_trophies/ASC");
+            this.populate_picker_sort(tag, "avg_trophies/DESC");
         } else {
             this.populate_picker_sort(tag, "wins/DESC");
         }
