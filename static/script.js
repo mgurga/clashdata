@@ -4,6 +4,7 @@ function clear_deck() {
     deck.clear();
     hintlist.update([]);
     document.querySelector("#commondeckdropdown").value = "blank";
+    document.getElementById("avgtrophies").innerHTML = "0000";
 }
 
 function deck_update_callback(cardlist) {
@@ -147,12 +148,16 @@ class Deck {
         if (this.cards.length == 0) this.avgcost = 0;
 
         this.avgtrophies = totaltrophies / this.cards.length;
-        if (this.cards.length == 0) this.avgtrophies = 0;
+        if (this.cards.length == 0) {
+            document.getElementById("avgtrophies").innerHTML = "0000";
+            this.avgtrophies = 0;
+        }
 
         this.avgwins = totalwins / this.cards.length;
         if (this.cards.length == 0) this.avgwins = 0;
 
         document.getElementById("avgelixir").innerHTML = this.avgcost.toFixed(1);
+        document.getElementById("avgtrophies").innerHTML = this.avgtrophies.toFixed(0);
     }
 
     clear() {

@@ -57,6 +57,13 @@ body {
     left: 13%;
 }
 
+#avgtrophies {
+    font-size: 1em;
+    position: absolute;
+    top: 88%;
+    left: 78.5%;
+}
+
 #rightpane {
     padding: 10px 0 0 10px;
     display: flex;
