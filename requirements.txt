@@ -1,3 +1,4 @@
 Flask
 pyspark
 mysql-connector-python
+pytest
